@@ -13,6 +13,7 @@ namespace Библиотека
     public partial class Library : Form
     {
         public string result;
+        public static string idUser;
         public Library()
         {
             InitializeComponent();
@@ -49,6 +50,12 @@ namespace Библиотека
         private void Library_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            new Profile().Show();
+            this.Hide();
         }
     }
 }

@@ -35,6 +35,7 @@ namespace Библиотека
                 MessageBox.Show("Добро пожаловать " + textBox1.Text);
                 
                 library.result = textBox1.Text;
+                Library.idUser = reader["Код"].ToString();
                 this.Hide();
                 
                 library.ShowDialog();
