@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Data.OleDb;
+using MySql.Data.MySqlClient;
+using Библиотека.Classes;
 
 namespace Библиотека
 {
@@ -28,26 +30,26 @@ namespace Библиотека
 
         private void button1_Click(object sender, EventArgs e)
         {
+            DB db = new DB();
             if (String.IsNullOrWhiteSpace(textBox1.Text) ||
                         String.IsNullOrWhiteSpace(textBox2.Text))
                 MessageBox.Show("Необходимо заполнить все данные!", "Ошибка!");
             else
             {
-                    string query = "INSERT INTO Авторизация(Логин,Пароль) VALUES(@Login,@Password)";
-                    using (OleDbConnection connection = new OleDbConnection(ConfigurationManager.ConnectionStrings["Библиотека.Properties.Settings.LibraryConnectionString"].ConnectionString))
-                    using (OleDbCommand command = new OleDbCommand(query, connection))
-                    {
-                        connection.Open();
-                        command.Parameters.AddWithValue("@Login", textBox1.Text);
-                        command.Parameters.AddWithValue("@Password", textBox2.Text);
+                string query = "INSERT INTO Авторизация(Логин,Пароль) VALUES(@Login,@Password)";
+                db.openConnection();        
+                using (MySqlCommand command = new MySqlCommand(query, db.getConnection()))
+                {
+                    command.Parameters.AddWithValue("@Login", textBox1.Text);
+                    command.Parameters.AddWithValue("@Password", textBox2.Text);
 
 
-                        command.ExecuteNonQuery();
-                        this.DialogResult = DialogResult.OK;
-                    }
-                
+                    command.ExecuteNonQuery();
+                    this.DialogResult = DialogResult.OK;
+                }
                 
             }
+            db.closeConnection();
             this.Close();
             var library = new Autorization();
             library.Show();

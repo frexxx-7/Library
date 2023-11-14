@@ -90,7 +90,9 @@ namespace Библиотека
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Name = "Library";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Library";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Library_FormClosed);
             this.Load += new System.EventHandler(this.Library_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

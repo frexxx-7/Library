@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Data.OleDb;
+using MySql.Data.MySqlClient;
+using Библиотека.Classes;
 
 namespace Библиотека
 {
@@ -21,15 +23,16 @@ namespace Библиотека
         }
         public void RefreshTable()
         {
-            string query = "SELECT Выдача.[Код выдачи] AS [Код выдачи], Выдача.[Дата оформления] AS [Дата оформления], " +
-                "Выдача.[Дата возврата план] AS [Дата возврата план], Выдача.[Дата возврата факт] AS [Дата возврата факт]," +
-                "Выдача.[Код книги] AS [Код книги], Выдача.[Код читателя] AS [Код читателя], Выдача.[Код библеотекаря] AS [Код библиотекаря], Книга.[Название] AS [Название Книги], " +
-                "Читатель.[Фамилия] AS [Фамилия читателя], Библиотекарь.[Фамилия] AS [Фамилия Библиотекаря] " +
-                "FROM (((Выдача INNER JOIN Книга ON Выдача.[Код книги] = Книга.[Код книги]) INNER JOIN " +
-                "Библиотекарь ON Выдача.[Код библеотекаря] = Библиотекарь.[Код библиотекаря]) INNER JOIN " +
-                "Читатель ON Выдача.[Код читателя] = Читатель.[Код читателя])";
-            var connectionString = ConfigurationManager.ConnectionStrings["Библиотека.Properties.Settings.LibraryConnectionString"].ConnectionString;
-            using (OleDbDataAdapter adapter = new OleDbDataAdapter(query, connectionString))
+            DB db = new DB();
+            string query = "SELECT Выдача.`Код выдачи` AS `Код выдачи`, Выдача.`Дата оформления` AS `Дата оформления`, " +
+                "Выдача.`Дата возврата план` AS `Дата возврата план`, Выдача.`Дата возврата факт` AS `Дата возврата факт`," +
+                "Выдача.`Код книги` AS `Код книги`, Выдача.`Код читателя` AS `Код читателя`, Выдача.`Код библеотекаря` AS `Код библиотекаря`, Книга.`Название` AS `Название Книги`, " +
+                "Читатель.`Фамилия` AS `Фамилия читателя`, Библиотекарь.`Фамилия` AS `Фамилия Библиотекаря` " +
+                "FROM (((Выдача INNER JOIN Книга ON Выдача.`Код книги` = Книга.`Код книги`) INNER JOIN " +
+                "Библиотекарь ON Выдача.`Код библеотекаря` = Библиотекарь.`Код библиотекаря`) INNER JOIN " +
+                "Читатель ON Выдача.`Код читателя` = Читатель.`Код читателя`)";
+            db.openConnection();
+            using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, db.getConnection()))
             {
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
@@ -39,6 +42,7 @@ namespace Библиотека
             dataGridView1.Columns[4].Visible = false;
             dataGridView1.Columns[5].Visible = false;
             dataGridView1.Columns[6].Visible = false;
+            db.closeConnection();
         }
         private void button2_Click(object sender, EventArgs e)
         {

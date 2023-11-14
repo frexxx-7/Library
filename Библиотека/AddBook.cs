@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Data.OleDb;
+using Библиотека.Classes;
+using MySql.Data.MySqlClient;
 
 namespace Библиотека
 {
@@ -31,8 +33,10 @@ namespace Библиотека
         }
         private void FillBoxes(string id)
         {
-            string query = $"SELECT * FROM Книга WHERE [Код книги] = {id}";
-            using (OleDbDataAdapter adapter = new OleDbDataAdapter(query, ConfigurationManager.ConnectionStrings["Библиотека.Properties.Settings.LibraryConnectionString"].ConnectionString))
+            DB db = new DB();
+            string query = $"SELECT * FROM Книга WHERE `Код книги` = {id}";
+            db.openConnection();
+            using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, db.getConnection()))
             {
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
@@ -43,6 +47,7 @@ namespace Библиотека
                 label1.Text = "Изменение";
                 button1.Text = "Сохранить";
             }
+            db.closeConnection();
         }
         private void button2_Click(object sender, EventArgs e)
         {
@@ -51,6 +56,7 @@ namespace Библиотека
 
         private void button1_Click(object sender, EventArgs e)
         {
+            DB db = new DB();
             if (String.IsNullOrWhiteSpace(textBox1.Text) ||
                            String.IsNullOrWhiteSpace(textBox2.Text) ||
                            String.IsNullOrWhiteSpace(textBox3.Text) ||
@@ -60,11 +66,10 @@ namespace Библиотека
             {
                 if (!isChange)
                 {
-                    string query = "INSERT INTO Книга(Название,Автор,Жанр,[Год издательства]) VALUES(@name,@avtor,@jan,@year)";
-                    using (OleDbConnection connection = new OleDbConnection(ConfigurationManager.ConnectionStrings["Библиотека.Properties.Settings.LibraryConnectionString"].ConnectionString))
-                    using (OleDbCommand command = new OleDbCommand(query, connection))
+                    string query = "INSERT INTO Книга(Название,Автор,Жанр,`Год издательства`) VALUES(@name,@avtor,@jan,@year)";
+                    db.openConnection();
+                    using (MySqlCommand command = new MySqlCommand(query, db.getConnection()))
                     {
-                        connection.Open();
                         command.Parameters.AddWithValue("@name", textBox1.Text);
                         command.Parameters.AddWithValue("@avtor", textBox2.Text);
                         command.Parameters.AddWithValue("@jan", textBox3.Text);
@@ -73,19 +78,20 @@ namespace Библиотека
                         command.ExecuteNonQuery();
                         this.DialogResult = DialogResult.OK;
                     }
+                    db.closeConnection();
                 }
                 else
                 {
-                    string query = $"UPDATE Книга SET [Название]=@name,[Автор]=@avtor,[Жанр]=@jan,[Год издательства]=@year WHERE [Код книги] = {idChange}";
-                    using (OleDbConnection connection = new OleDbConnection(ConfigurationManager.ConnectionStrings["Библиотека.Properties.Settings.LibraryConnectionString"].ConnectionString))
-                    using (OleDbCommand command = new OleDbCommand(query, connection))
+                    string query = $"UPDATE Книга SET `Название`=@name,`Автор`=@avtor,`Жанр`=@jan,`Год издательства`=@year WHERE `Код книги` = {idChange}";
+                    db.openConnection();
+                    using (MySqlCommand command = new MySqlCommand(query, db.getConnection()))
                     {
-                        connection.Open();
                         command.Parameters.AddWithValue("@name", textBox1.Text);
                         command.Parameters.AddWithValue("@avtor", textBox2.Text);
                         command.Parameters.AddWithValue("@jan", textBox3.Text);
                         command.Parameters.AddWithValue("@year", textBox4.Text);
                         command.ExecuteNonQuery();
+                        db.closeConnection();
                         this.DialogResult = DialogResult.OK;
                     }
                 }

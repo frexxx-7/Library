@@ -99,6 +99,7 @@ namespace Библиотека
             this.Controls.Add(this.button5);
             this.Controls.Add(this.dataGridView1);
             this.Name = "CheckExtradition";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CheckExtradition";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

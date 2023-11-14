@@ -9,14 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.OleDb;
 using System.Data.SqlClient;
+using Библиотека.Classes;
+using MySql.Data.MySqlClient;
 
 namespace Библиотека
 {
     public partial class Autorization : Form
     {
-        OleDbConnection con;
-        OleDbCommand cmd;
-        OleDbDataReader dr;
         public Autorization()
         {
             InitializeComponent();
@@ -24,16 +23,13 @@ namespace Библиотека
 
         private void button1_Click(object sender, EventArgs e)
         {
-            con = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\Библиотека.accdb");
-            cmd = new OleDbCommand();
-            con.Open();
-            cmd.Connection = con;
-            string str = "SELECT * FROM Авторизация where Логин='" + textBox1.Text + "' AND Пароль='" + textBox2.Text + "'";
-            cmd.CommandText = str;
+            DB db = new DB();
+            MySqlCommand command = new MySqlCommand("SELECT * FROM Авторизация where Логин='" + textBox1.Text + "' AND Пароль='" + textBox2.Text + "'", db.getConnection());
+            db.openConnection();
 
-            dr = cmd.ExecuteReader();
+            MySqlDataReader reader = command.ExecuteReader();
 
-            if (dr.Read())
+            if (reader.Read())
             {
                 Library library = new Library();
                 MessageBox.Show("Добро пожаловать " + textBox1.Text);
@@ -47,7 +43,7 @@ namespace Библиотека
             {
                 MessageBox.Show("Неправильный логин или пароль");
             }
-            con.Close();
+            db.closeConnection();
         }
 
         private void button3_Click(object sender, EventArgs e)

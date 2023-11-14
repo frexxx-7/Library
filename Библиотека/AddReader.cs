@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Data.OleDb;
+using Библиотека.Classes;
+using MySql.Data.MySqlClient;
 
 namespace Библиотека
 {
@@ -31,8 +33,9 @@ namespace Библиотека
         }
         private void FillBoxes(string id)
         {
-            string query = $"SELECT * FROM Читатель WHERE [Код читателя] = {id}";
-            using (OleDbDataAdapter adapter = new OleDbDataAdapter(query, ConfigurationManager.ConnectionStrings["Библиотека.Properties.Settings.LibraryConnectionString"].ConnectionString))
+            DB db = new DB();
+            string query = $"SELECT * FROM Читатель WHERE `Код читателя` = {id}";
+            using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, db.getConnection()))
             {
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
@@ -51,6 +54,7 @@ namespace Библиотека
 
         private void button1_Click(object sender, EventArgs e)
         {
+            DB db = new DB();
             if (String.IsNullOrWhiteSpace(textBox1.Text) ||
                        String.IsNullOrWhiteSpace(textBox2.Text) ||
                        String.IsNullOrWhiteSpace(textBox3.Text) ||
@@ -60,11 +64,11 @@ namespace Библиотека
             {
                 if (!isChange)
                 {
-                    string query = "INSERT INTO Читатель(Фамилия,Имя,Отчество,[Номер телефона]) VALUES(@Fam,@Imya,@Otchestvo,@nomber)";
-                    using (OleDbConnection connection = new OleDbConnection(ConfigurationManager.ConnectionStrings["Библиотека.Properties.Settings.LibraryConnectionString"].ConnectionString))
-                    using (OleDbCommand command = new OleDbCommand(query, connection))
+                    string query = "INSERT INTO Читатель(Фамилия,Имя,Отчество,`Номер телефона`) VALUES(@Fam,@Imya,@Otchestvo,@nomber)";
+                    
+                    using (MySqlCommand command = new MySqlCommand(query, db.getConnection()))
                     {
-                        connection.Open();
+                        db.openConnection();
                         command.Parameters.AddWithValue("@Fam", textBox1.Text);
                         command.Parameters.AddWithValue("@Imya", textBox2.Text);
                         command.Parameters.AddWithValue("@Otchestvo", textBox3.Text);
@@ -72,22 +76,23 @@ namespace Библиотека
 
 
                         command.ExecuteNonQuery();
+                        db.closeConnection();
                         this.DialogResult = DialogResult.OK;
                     }
                 }
                 else
                 {
-                    string query = $"UPDATE Читатель SET Фамилия=@Fam,Имя=@Imya,Отчество=@Otchestvo, [Номер телефона]=@nomber WHERE [Код Читателя]= {idChange}";
-                    using (OleDbConnection connection = new OleDbConnection(ConfigurationManager.ConnectionStrings["Библиотека.Properties.Settings.LibraryConnectionString"].ConnectionString))
-                    using (OleDbCommand command = new OleDbCommand(query, connection))
+                    string query = $"UPDATE Читатель SET Фамилия=@Fam,Имя=@Imya,Отчество=@Otchestvo, `Номер телефона`=@nomber WHERE `Код Читателя`= {idChange}";
+                    using (MySqlCommand command = new MySqlCommand(query, db.getConnection()))
                     {
-                        connection.Open();
+                        db.openConnection();
                         command.Parameters.AddWithValue("@Fam", textBox1.Text);
                         command.Parameters.AddWithValue("@Imya", textBox2.Text);
                         command.Parameters.AddWithValue("@Otchestvo", textBox3.Text);
                         command.Parameters.AddWithValue("@nomber", textBox4.Text);
 
                         command.ExecuteNonQuery();
+                        db.closeConnection();
                         this.DialogResult = DialogResult.OK;
                     }
                 }

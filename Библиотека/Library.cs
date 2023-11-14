@@ -40,10 +40,15 @@ namespace Библиотека
 
         private void Library_Load(object sender, EventArgs e)
         {
-            if (result != "Admin")
-                button1.Enabled = false;
-            else
+            if (result == "Admin" || result == "admin")
                 button1.Enabled = true;
+            else
+                button1.Enabled = false;
+        }
+
+        private void Library_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

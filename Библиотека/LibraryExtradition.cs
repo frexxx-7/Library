@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.OleDb;
 using System.Configuration;
+using Библиотека.Classes;
+using MySql.Data.MySqlClient;
 
 namespace Библиотека
 {
@@ -25,19 +27,21 @@ namespace Библиотека
         }
         public void RefreshTable()
         {
-            string query = "SELECT Выдача.[Код выдачи] AS [Код выдачи], Выдача.[Дата оформления] AS [Дата оформления], " +
-                "Выдача.[Дата возврата план] AS [Дата возврата план], Выдача.[Дата возврата факт] AS [Дата возврата факт]," +
-                "Выдача.[Код книги] AS [Код книги], Выдача.[Код читателя] AS [Код читателя], Выдача.[Код библеотекаря] AS [Код библиотекаря], Книга.[Название] AS [Название Книги], " +
-                "Читатель.[Фамилия] AS [Фамилия читателя], Библиотекарь.[Фамилия] AS [Фамилия Библиотекаря] " +
-                "FROM (((Выдача INNER JOIN Книга ON Выдача.[Код книги] = Книга.[Код книги]) INNER JOIN " +
-                "Библиотекарь ON Выдача.[Код библеотекаря] = Библиотекарь.[Код библиотекаря]) INNER JOIN " +
-                "Читатель ON Выдача.[Код читателя] = Читатель.[Код читателя])";
-            var connectionString = ConfigurationManager.ConnectionStrings["Библиотека.Properties.Settings.LibraryConnectionString"].ConnectionString;
-            using (OleDbDataAdapter adapter = new OleDbDataAdapter(query, connectionString))
+            DB db = new DB();
+            string query = "SELECT Выдача.`Код выдачи` AS `Код выдачи`, Выдача.`Дата оформления` AS `Дата оформления`, " +
+                "Выдача.`Дата возврата план` AS `Дата возврата план`, Выдача.`Дата возврата факт` AS `Дата возврата факт`," +
+                "Выдача.`Код книги` AS `Код книги`, Выдача.`Код читателя` AS `Код читателя`, Выдача.`Код библеотекаря` AS `Код библиотекаря`, Книга.`Название` AS `Название Книги`, " +
+                "Читатель.`Фамилия` AS `Фамилия читателя`, Библиотекарь.`Фамилия` AS `Фамилия Библиотекаря` " +
+                "FROM (((Выдача INNER JOIN Книга ON Выдача.`Код книги` = Книга.`Код книги`) INNER JOIN " +
+                "Библиотекарь ON Выдача.`Код библеотекаря` = Библиотекарь.`Код библиотекаря`) INNER JOIN " +
+                "Читатель ON Выдача.`Код читателя` = Читатель.`Код читателя`)";
+            using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, db.getConnection()))
             {
+                db.openConnection();
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
                 dataGridView1.DataSource = dataTable;
+                db.closeConnection();
             }
             dataGridView1.Columns[0].Visible = false;
             dataGridView1.Columns[4].Visible = false;
@@ -47,41 +51,47 @@ namespace Библиотека
 
         public void RefreshTable1()
         {
-            string query = "SELECT Книга.[Код книги] AS [Код книги], Книга.[Название] AS [Название], Книга.[Автор] AS [Автор], " +
-                "Книга.[Жанр] AS [Жанр], Книга.[Год издательства] AS [Год издательства] FROM Книга";
-            var connectionString = ConfigurationManager.ConnectionStrings["Библиотека.Properties.Settings.LibraryConnectionString"].ConnectionString;
-            using (OleDbDataAdapter adapter = new OleDbDataAdapter(query, connectionString))
+            DB db = new DB();
+            string query = "SELECT Книга.`Код книги` AS `Код книги`, Книга.`Название` AS `Название`, Книга.`Автор` AS `Автор`, " +
+                "Книга.`Жанр` AS `Жанр`, Книга.`Год издательства` AS `Год издательства` FROM Книга";
+            db.openConnection();
+            using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, db.getConnection()))
             {
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
                 dataGridView2.DataSource = dataTable;
             }
+            db.closeConnection();
             dataGridView2.Columns[0].Visible = false;
         }
         public void RefreshTable2()
         {
-            string query = "SELECT Библиотекарь.[Код библиотекаря] AS [Код библиотекаря], Библиотекарь.[Имя] AS [Имя], Библиотекарь.[Фамилия] AS [Фамилия], " +
-                "Библиотекарь.[Отчество] AS [Отчество] FROM Библиотекарь";
-            var connectionString = ConfigurationManager.ConnectionStrings["Библиотека.Properties.Settings.LibraryConnectionString"].ConnectionString;
-            using (OleDbDataAdapter adapter = new OleDbDataAdapter(query, connectionString))
+            DB db = new DB();
+            string query = "SELECT Библиотекарь.`Код библиотекаря` AS `Код библиотекаря`, Библиотекарь.`Имя` AS `Имя`, Библиотекарь.`Фамилия` AS `Фамилия`, " +
+                "Библиотекарь.`Отчество` AS `Отчество` FROM Библиотекарь";
+            db.openConnection();
+            using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, db.getConnection()))
             {
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
                 dataGridView3.DataSource = dataTable;
             }
+            db.closeConnection();
             dataGridView3.Columns[0].Visible = false;
         }
         public void RefreshTable3()
         {
-            string query = "SELECT Читатель.[Код читателя] AS [Код читателя], Читатель.[Имя] AS [Имя], Читатель.[Фамилия] AS [Фамилия], " +
-                "Читатель.[Отчество] AS [Отчество], Читатель.[Номер телефона] AS [Номер телефона] FROM Читатель";
-            var connectionString = ConfigurationManager.ConnectionStrings["Библиотека.Properties.Settings.LibraryConnectionString"].ConnectionString;
-            using (OleDbDataAdapter adapter = new OleDbDataAdapter(query, connectionString))
+            DB db = new DB();
+            string query = "SELECT Читатель.`Код читателя` AS `Код читателя`, Читатель.`Имя` AS `Имя`, Читатель.`Фамилия` AS `Фамилия`, " +
+                "Читатель.`Отчество` AS `Отчество`, Читатель.`Номер телефона` AS `Номер телефона` FROM Читатель";
+            db.openConnection();
+            using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, db.getConnection()))
             {
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
                 dataGridView4.DataSource = dataTable;
             }
+            db.closeConnection();
             dataGridView4.Columns[0].Visible = false;
         }
         private void LibraryExtradition_Load(object sender, EventArgs e)
@@ -96,22 +106,23 @@ namespace Библиотека
 
         private void button3_Click(object sender, EventArgs e)
         {
+            DB db = new DB();
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                string query = $"DELETE FROM Выдача WHERE  [Код выдачи] =  {dataGridView1.SelectedRows[0].Cells[0].Value.ToString()}";
+                string query = $"DELETE FROM Выдача WHERE  `Код выдачи` =  {dataGridView1.SelectedRows[0].Cells[0].Value.ToString()}";
                 if (MessageBox.Show("Вы действительно хотите удалить заявку?", "Подтверждение удаления",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
-                    using (OleDbConnection connection = new OleDbConnection(ConfigurationManager.ConnectionStrings["Библиотека.Properties.Settings.LibraryConnectionString"].ConnectionString))
-                    using (OleDbCommand command = new OleDbCommand(query, connection))
+                    using (MySqlCommand command = new MySqlCommand(query, db.getConnection()))
                     {
-                        connection.Open();
+                        db.openConnection();
                         command.ExecuteNonQuery();
                     }
                     MessageBox.Show("Запись успешно удалена!", "Успех!");
                     RefreshTable();
                 }
             }
+            db.closeConnection();
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -218,58 +229,61 @@ namespace Библиотека
 
         private void button9_Click(object sender, EventArgs e)
         {
+            DB db = new DB();
             if (dataGridView2.SelectedRows.Count > 0)
             {
-                string query = $"DELETE FROM Книга WHERE  [Код книги] =  {dataGridView2.SelectedRows[0].Cells[0].Value.ToString()}";
+                string query = $"DELETE FROM Книга WHERE  `Код книги` =  {dataGridView2.SelectedRows[0].Cells[0].Value.ToString()}";
                 if (MessageBox.Show("Вы действительно хотите удалить заявку?", "Подтверждение удаления",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
-                    using (OleDbConnection connection = new OleDbConnection(ConfigurationManager.ConnectionStrings["Библиотека.Properties.Settings.LibraryConnectionString"].ConnectionString))
-                    using (OleDbCommand command = new OleDbCommand(query, connection))
+                    db.openConnection();
+                    using (MySqlCommand command = new MySqlCommand(query, db.getConnection()))
                     {
-                        connection.Open();
                         command.ExecuteNonQuery();
                     }
                     MessageBox.Show("Запись успешно удалена!", "Успех!");
                     RefreshTable1();
                 }
             }
+            db.closeConnection();
         }
 
         private void button14_Click(object sender, EventArgs e)
         {
+            DB db = new DB();
             if (dataGridView3.SelectedRows.Count > 0)
             {
-                string query = $"DELETE FROM Библиотекарь WHERE  [Код библиотекаря] =  {dataGridView3.SelectedRows[0].Cells[0].Value.ToString()}";
+                string query = $"DELETE FROM Библиотекарь WHERE  `Код библиотекаря` =  {dataGridView3.SelectedRows[0].Cells[0].Value.ToString()}";
                 if (MessageBox.Show("Вы действительно хотите удалить заявку?", "Подтверждение удаления",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
-                    using (OleDbConnection connection = new OleDbConnection(ConfigurationManager.ConnectionStrings["Библиотека.Properties.Settings.LibraryConnectionString"].ConnectionString))
-                    using (OleDbCommand command = new OleDbCommand(query, connection))
+                    db.openConnection();
+                    using (MySqlCommand command = new MySqlCommand(query, db.getConnection()))
                     {
-                        connection.Open();
                         command.ExecuteNonQuery();
                     }
                     MessageBox.Show("Запись успешно удалена!", "Успех!");
                     RefreshTable2();
                 }
             }
+            db.closeConnection();
         }
 
         private void button19_Click(object sender, EventArgs e)
         {
+            DB db = new DB();
             if (dataGridView4.SelectedRows.Count > 0)
             {
-                string query = $"DELETE FROM Читатель WHERE  [Код читателя] =  {dataGridView4.SelectedRows[0].Cells[0].Value.ToString()}";
+                string query = $"DELETE FROM Читатель WHERE  `Код читателя` =  {dataGridView4.SelectedRows[0].Cells[0].Value.ToString()}";
                 if (MessageBox.Show("Вы действительно хотите удалить заявку?", "Подтверждение удаления",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
-                    using (OleDbConnection connection = new OleDbConnection(ConfigurationManager.ConnectionStrings["Библиотека.Properties.Settings.LibraryConnectionString"].ConnectionString))
-                    using (OleDbCommand command = new OleDbCommand(query, connection))
+                    db.openConnection();
+                    using (MySqlCommand command = new MySqlCommand(query, db.getConnection()))
                     {
-                        connection.Open();
                         command.ExecuteNonQuery();
                     }
+                    db.closeConnection();
                     MessageBox.Show("Запись успешно удалена!", "Успех!");
                     RefreshTable3();
                 }
