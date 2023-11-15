@@ -31,6 +31,7 @@ namespace Библиотека
         {
             this.button6 = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button23 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
@@ -40,6 +41,7 @@ namespace Библиотека
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button24 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.button8 = new System.Windows.Forms.Button();
@@ -48,6 +50,7 @@ namespace Библиотека
             this.button11 = new System.Windows.Forms.Button();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.button25 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.button13 = new System.Windows.Forms.Button();
@@ -56,6 +59,7 @@ namespace Библиотека
             this.button16 = new System.Windows.Forms.Button();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.button26 = new System.Windows.Forms.Button();
             this.button17 = new System.Windows.Forms.Button();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.button18 = new System.Windows.Forms.Button();
@@ -88,6 +92,7 @@ namespace Библиотека
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button23);
             this.tabPage1.Controls.Add(this.button5);
             this.tabPage1.Controls.Add(this.textBox1);
             this.tabPage1.Controls.Add(this.button4);
@@ -102,6 +107,17 @@ namespace Библиотека
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Выдача";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // button23
+            // 
+            this.button23.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button23.Location = new System.Drawing.Point(25, 422);
+            this.button23.Name = "button23";
+            this.button23.Size = new System.Drawing.Size(143, 41);
+            this.button23.TabIndex = 7;
+            this.button23.Text = "Вывести";
+            this.button23.UseVisualStyleBackColor = true;
+            this.button23.Click += new System.EventHandler(this.button23_Click);
             // 
             // button5
             // 
@@ -190,6 +206,7 @@ namespace Библиотека
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.button24);
             this.tabPage2.Controls.Add(this.button7);
             this.tabPage2.Controls.Add(this.textBox2);
             this.tabPage2.Controls.Add(this.button8);
@@ -204,6 +221,17 @@ namespace Библиотека
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Книга";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // button24
+            // 
+            this.button24.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button24.Location = new System.Drawing.Point(25, 422);
+            this.button24.Name = "button24";
+            this.button24.Size = new System.Drawing.Size(143, 41);
+            this.button24.TabIndex = 8;
+            this.button24.Text = "Вывести";
+            this.button24.UseVisualStyleBackColor = true;
+            this.button24.Click += new System.EventHandler(this.button24_Click);
             // 
             // button7
             // 
@@ -279,6 +307,7 @@ namespace Библиотека
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.button25);
             this.tabPage3.Controls.Add(this.button12);
             this.tabPage3.Controls.Add(this.textBox3);
             this.tabPage3.Controls.Add(this.button13);
@@ -293,6 +322,17 @@ namespace Библиотека
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Библиотекарь";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // button25
+            // 
+            this.button25.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button25.Location = new System.Drawing.Point(25, 422);
+            this.button25.Name = "button25";
+            this.button25.Size = new System.Drawing.Size(143, 41);
+            this.button25.TabIndex = 8;
+            this.button25.Text = "Вывести";
+            this.button25.UseVisualStyleBackColor = true;
+            this.button25.Click += new System.EventHandler(this.button25_Click);
             // 
             // button12
             // 
@@ -368,6 +408,7 @@ namespace Библиотека
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.button26);
             this.tabPage4.Controls.Add(this.button17);
             this.tabPage4.Controls.Add(this.textBox4);
             this.tabPage4.Controls.Add(this.button18);
@@ -382,6 +423,17 @@ namespace Библиотека
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Читатель";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // button26
+            // 
+            this.button26.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button26.Location = new System.Drawing.Point(25, 422);
+            this.button26.Name = "button26";
+            this.button26.Size = new System.Drawing.Size(143, 41);
+            this.button26.TabIndex = 8;
+            this.button26.Text = "Вывести";
+            this.button26.UseVisualStyleBackColor = true;
+            this.button26.Click += new System.EventHandler(this.button26_Click);
             // 
             // button17
             // 
@@ -476,6 +528,7 @@ namespace Библиотека
             this.Controls.Add(this.tabControl1);
             this.Name = "LibraryExtradition";
             this.Text = "LibraryExtradition";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LibraryExtradition_FormClosed);
             this.Load += new System.EventHandler(this.LibraryExtradition_Load);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -531,5 +584,9 @@ namespace Библиотека
         private System.Windows.Forms.Button button21;
         private System.Windows.Forms.DataGridView dataGridView4;
         private System.Windows.Forms.Button button22;
+        private System.Windows.Forms.Button button23;
+        private System.Windows.Forms.Button button24;
+        private System.Windows.Forms.Button button25;
+        private System.Windows.Forms.Button button26;
     }
 }

@@ -11,6 +11,7 @@ using System.Data.OleDb;
 using System.Configuration;
 using Библиотека.Classes;
 using MySql.Data.MySqlClient;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Библиотека
 {
@@ -52,8 +53,9 @@ namespace Библиотека
         public void RefreshTable1()
         {
             DB db = new DB();
-            string query = "SELECT Книга.`Код книги` AS `Код книги`, Книга.`Название` AS `Название`, Книга.`Автор` AS `Автор`, " +
-                "Книга.`Жанр` AS `Жанр`, Книга.`Год издательства` AS `Год издательства` FROM Книга";
+            string query = "SELECT Книга.`Код книги` AS `Код книги`, Книга.`Название` AS `Название`, `Автор книги`.`ФИО автора` AS `Автор`, " +
+                "Книга.`Жанр` AS `Жанр`, Книга.`Год издательства` AS `Год издательства` FROM Книга " +
+                "left join `Автор книги` on `Автор книги`.`Код` = `Книга`.`Код автора`";
             db.openConnection();
             using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, db.getConnection()))
             {
@@ -371,6 +373,163 @@ namespace Библиотека
         private void button22_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void LibraryExtradition_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void button23_Click(object sender, EventArgs e)
+        {
+            Excel.Application excelApp = new Excel.Application();
+            Excel.Workbook workbook = excelApp.Workbooks.Add();
+            Excel.Worksheet worksheet = workbook.ActiveSheet;
+            int countColumn = 1;
+            for (int j = 0; j < dataGridView1.Columns.Count; j++)
+            {
+                if (dataGridView1.Columns[j].Visible)
+                {
+                    worksheet.Cells[1, countColumn] = dataGridView1.Columns[j].HeaderText;
+                    countColumn++;
+                }
+            }
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                countColumn = 1;
+                for (int j = 0; j < dataGridView1.Columns.Count; j++)
+                {
+                    if (dataGridView1.Columns[j].Visible)
+                    {
+                        worksheet.Cells[i + 2, countColumn] = dataGridView1.Rows[i].Cells[j].Value;
+                        countColumn++;
+                    }
+                }
+            }
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Excel File|*.xlsx";
+            saveFileDialog1.Title = "Сохранить Excel файл";
+            saveFileDialog1.ShowDialog();
+            if (saveFileDialog1.FileName != "")
+            {
+                workbook.SaveAs(saveFileDialog1.FileName);
+            }
+            workbook.Close();
+            excelApp.Quit();
+        }
+
+        private void button24_Click(object sender, EventArgs e)
+        {
+            Excel.Application excelApp = new Excel.Application();
+            Excel.Workbook workbook = excelApp.Workbooks.Add();
+            Excel.Worksheet worksheet = workbook.ActiveSheet;
+            int countColumn = 1;
+            for (int j = 0; j < dataGridView2.Columns.Count; j++)
+            {
+                if (dataGridView2.Columns[j].Visible)
+                {
+                    worksheet.Cells[1, countColumn] = dataGridView2.Columns[j].HeaderText;
+                    countColumn++;
+                }
+            }
+            for (int i = 0; i < dataGridView2.Rows.Count; i++)
+            {
+                countColumn = 1;
+                for (int j = 0; j < dataGridView2.Columns.Count; j++)
+                {
+                    if (dataGridView2.Columns[j].Visible)
+                    {
+                        worksheet.Cells[i + 2, countColumn] = dataGridView2.Rows[i].Cells[j].Value;
+                        countColumn++;
+                    }
+                }
+            }
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Excel File|*.xlsx";
+            saveFileDialog1.Title = "Сохранить Excel файл";
+            saveFileDialog1.ShowDialog();
+            if (saveFileDialog1.FileName != "")
+            {
+                workbook.SaveAs(saveFileDialog1.FileName);
+            }
+            workbook.Close();
+            excelApp.Quit();
+        }
+
+        private void button25_Click(object sender, EventArgs e)
+        {
+            Excel.Application excelApp = new Excel.Application();
+            Excel.Workbook workbook = excelApp.Workbooks.Add();
+            Excel.Worksheet worksheet = workbook.ActiveSheet;
+            int countColumn = 1;
+            for (int j = 0; j < dataGridView3.Columns.Count; j++)
+            {
+                if (dataGridView3.Columns[j].Visible)
+                {
+                    worksheet.Cells[1, countColumn] = dataGridView3.Columns[j].HeaderText;
+                    countColumn++;
+                }
+            }
+            for (int i = 0; i < dataGridView3.Rows.Count; i++)
+            {
+                countColumn = 1;
+                for (int j = 0; j < dataGridView3.Columns.Count; j++)
+                {
+                    if (dataGridView3.Columns[j].Visible)
+                    {
+                        worksheet.Cells[i + 2, countColumn] = dataGridView3.Rows[i].Cells[j].Value;
+                        countColumn++;
+                    }
+                }
+            }
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Excel File|*.xlsx";
+            saveFileDialog1.Title = "Сохранить Excel файл";
+            saveFileDialog1.ShowDialog();
+            if (saveFileDialog1.FileName != "")
+            {
+                workbook.SaveAs(saveFileDialog1.FileName);
+            }
+            workbook.Close();
+            excelApp.Quit();
+        }
+
+        private void button26_Click(object sender, EventArgs e)
+        {
+            Excel.Application excelApp = new Excel.Application();
+            Excel.Workbook workbook = excelApp.Workbooks.Add();
+            Excel.Worksheet worksheet = workbook.ActiveSheet;
+            int countColumn = 1;
+            for (int j = 0; j < dataGridView4.Columns.Count; j++)
+            {
+                if (dataGridView4.Columns[j].Visible)
+                {
+                    worksheet.Cells[1, countColumn] = dataGridView4.Columns[j].HeaderText;
+                    countColumn++;
+                }
+            }
+            for (int i = 0; i < dataGridView4.Rows.Count; i++)
+            {
+                countColumn = 1;
+                for (int j = 0; j < dataGridView4.Columns.Count; j++)
+                {
+                    if (dataGridView4.Columns[j].Visible)
+                    {
+                        worksheet.Cells[i + 2, countColumn] = Convert.ToString(dataGridView4.Rows[i].Cells[j].Value);
+                        countColumn++;
+                    }
+                }
+            }
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Excel File|*.xlsx";
+            saveFileDialog1.Title = "Сохранить Excel файл";
+            saveFileDialog1.ShowDialog();
+            if (saveFileDialog1.FileName != "")
+            {
+                workbook.SaveAs(saveFileDialog1.FileName);
+            }
+            workbook.Close();
+            excelApp.Quit();
         }
     }
 }

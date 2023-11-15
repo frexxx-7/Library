@@ -19,6 +19,7 @@ namespace Библиотека
         public AddBook()
         {
             InitializeComponent();
+            combobox(comboBox1, "SELECT `Код`, `ФИО автора` FROM `Автор книги`", "ФИО автора", "Код");
         }
         private bool isChange = false;
         private string idChange;
@@ -31,6 +32,22 @@ namespace Библиотека
                 FillBoxes(value);
             }
         }
+        public void combobox(ComboBox c, string query, string displaymember, string valuemember)
+        {
+            DB db = new DB();
+            db.openConnection();
+            using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, db.getConnection()))
+            {
+                System.Data.DataTable datatable = new System.Data.DataTable();
+                adapter.Fill(datatable);
+                c.DataSource = datatable;
+                c.DisplayMember = displaymember;
+                c.ValueMember = valuemember;
+                if(c.Items.Count>0)
+                    c.SelectedIndex = 0;
+            }
+            db.closeConnection();
+        }
         private void FillBoxes(string id)
         {
             DB db = new DB();
@@ -41,9 +58,8 @@ namespace Библиотека
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
                 textBox1.Text = dataTable.Rows[0][1].ToString();
-                textBox2.Text = dataTable.Rows[0][2].ToString();
-                textBox3.Text = dataTable.Rows[0][3].ToString();
-                textBox4.Text = dataTable.Rows[0][4].ToString();
+                textBox3.Text = dataTable.Rows[0][2].ToString();
+                textBox4.Text = dataTable.Rows[0][3].ToString();
                 label1.Text = "Изменение";
                 button1.Text = "Сохранить";
             }
@@ -58,7 +74,6 @@ namespace Библиотека
         {
             DB db = new DB();
             if (String.IsNullOrWhiteSpace(textBox1.Text) ||
-                           String.IsNullOrWhiteSpace(textBox2.Text) ||
                            String.IsNullOrWhiteSpace(textBox3.Text) ||
                            String.IsNullOrWhiteSpace(textBox4.Text))
                 MessageBox.Show("Необходимо заполнить все данные!", "Ошибка!");
@@ -66,12 +81,12 @@ namespace Библиотека
             {
                 if (!isChange)
                 {
-                    string query = "INSERT INTO Книга(Название,Автор,Жанр,`Год издательства`) VALUES(@name,@avtor,@jan,@year)";
+                    string query = "INSERT INTO Книга(Название,`Код автора`,Жанр,`Год издательства`) VALUES(@name,@avtor,@jan,@year)";
                     db.openConnection();
                     using (MySqlCommand command = new MySqlCommand(query, db.getConnection()))
                     {
                         command.Parameters.AddWithValue("@name", textBox1.Text);
-                        command.Parameters.AddWithValue("@avtor", textBox2.Text);
+                        command.Parameters.AddWithValue("@avtor", comboBox1.SelectedValue);
                         command.Parameters.AddWithValue("@jan", textBox3.Text);
                         command.Parameters.AddWithValue("@year", textBox4.Text);
 
@@ -82,12 +97,12 @@ namespace Библиотека
                 }
                 else
                 {
-                    string query = $"UPDATE Книга SET `Название`=@name,`Автор`=@avtor,`Жанр`=@jan,`Год издательства`=@year WHERE `Код книги` = {idChange}";
+                    string query = $"UPDATE Книга SET `Название`=@name,`Код автора`=@avtor,`Жанр`=@jan,`Год издательства`=@year WHERE `Код книги` = {idChange}";
                     db.openConnection();
                     using (MySqlCommand command = new MySqlCommand(query, db.getConnection()))
                     {
                         command.Parameters.AddWithValue("@name", textBox1.Text);
-                        command.Parameters.AddWithValue("@avtor", textBox2.Text);
+                        command.Parameters.AddWithValue("@avtor", comboBox1.SelectedValue);
                         command.Parameters.AddWithValue("@jan", textBox3.Text);
                         command.Parameters.AddWithValue("@year", textBox4.Text);
                         command.ExecuteNonQuery();
@@ -96,6 +111,11 @@ namespace Библиотека
                     }
                 }
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            new AddAuthor().Show();
         }
     }
 }

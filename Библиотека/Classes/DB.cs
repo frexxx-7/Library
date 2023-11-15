@@ -10,7 +10,7 @@ namespace Библиотека.Classes
 {
     internal class DB
     {
-        public MySqlConnection connection = new MySqlConnection("server=localhost;port=3306;username=root;password='root';database=библиотека");
+        public MySqlConnection connection = new MySqlConnection("server=localhost;port=3306;username=root;password='';database=библиотека");
 
         public void openConnection()
         {
