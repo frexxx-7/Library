@@ -12,7 +12,7 @@ namespace Библиотека
 {
     public partial class Library : Form
     {
-        public string result;
+        public static string result;
         public static string idUser;
         public Library()
         {
@@ -22,7 +22,7 @@ namespace Библиотека
         private void button1_Click(object sender, EventArgs e)
         {
             var libraryExtradition = new LibraryExtradition();
-            libraryExtradition.result = this.result;
+            libraryExtradition.result = Library.result;
             this.Hide();
             libraryExtradition.Show();
         }
@@ -36,7 +36,7 @@ namespace Библиотека
         {
             CheckExtradition addExtradition = new CheckExtradition();
             addExtradition.Show();
-            this.Close();
+            this.Hide();
         }
 
         private void Library_Load(object sender, EventArgs e)

@@ -365,7 +365,7 @@ namespace Библиотека
         private void button6_Click(object sender, EventArgs e)
         {
             Library rentCar = new Library();
-            rentCar.result = this.result;
+            Library.result = this.result;
             rentCar.Show();
             this.Close();
         }

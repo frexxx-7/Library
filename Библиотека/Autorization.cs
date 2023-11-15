@@ -33,8 +33,8 @@ namespace Библиотека
             {
                 Library library = new Library();
                 MessageBox.Show("Добро пожаловать " + textBox1.Text);
-                
-                library.result = textBox1.Text;
+
+                Library.result = textBox1.Text;
                 Library.idUser = reader["Код"].ToString();
                 this.Hide();
                 
